@@ -5,7 +5,9 @@ const getStateFromStorage = (key) => {
 };
 
 const setStateToStorage = (key, data) => {
-  return localStorage.setItem(key, JSON.stringify(data));
+  localStorage.setItem(key, JSON.stringify(data));
+
+  return data;
 };
 
 export default class Model {
@@ -15,18 +17,20 @@ export default class Model {
 
   addStation(name) {
     const prevStations = getStateFromStorage(STATIONS);
-    const newStations = prevStations ? [...prevStations, name] : [name];
-    setStateToStorage(STATIONS, newStations);
 
-    return newStations;
+    return setStateToStorage(
+      STATIONS,
+      prevStations ? [...prevStations, name] : [name]
+    );
   }
 
   removeStation(name) {
     const prevStations = getStateFromStorage(STATIONS);
-    const newStations = prevStations.filter((el) => el !== name);
-    setStateToStorage(STATIONS, newStations);
 
-    return newStations;
+    return setStateToStorage(
+      STATIONS,
+      prevStations.filter((el) => el !== name)
+    );
   }
 
   getLines() {
@@ -35,38 +39,31 @@ export default class Model {
 
   addLine(name, section) {
     const lines = getStateFromStorage(LINES);
-    const newLines = { ...lines, [name]: section };
-    setStateToStorage(LINES, newLines);
 
-    return newLines;
+    return setStateToStorage(LINES, { ...lines, [name]: section });
   }
 
   removeLine(lineName) {
     const lines = getStateFromStorage(LINES);
     delete lines[lineName];
-    setStateToStorage(LINES, lines);
 
-    return lines;
+    return setStateToStorage(LINES, lines);
   }
 
   addSection(line, station, order) {
     const lines = getStateFromStorage(LINES);
     const section = lines[line];
     section.splice(order, 0, station);
-    const newLines = { ...lines, [line]: section };
-    setStateToStorage(LINES, newLines);
 
-    return newLines;
+    return setStateToStorage(LINES, { ...lines, [line]: section });
   }
 
   removeSection(line, station) {
     const lines = getStateFromStorage(LINES);
-    const newLines = {
+
+    return setStateToStorage(LINES, {
       ...lines,
       [line]: lines[line].filter((el) => el !== station),
-    };
-    setStateToStorage(LINES, newLines);
-
-    return newLines;
+    });
   }
 }
