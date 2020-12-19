@@ -52,7 +52,7 @@ export default class View {
       const tableSetData = document.createElement("td");
       const stationDeleteButton = document.createElement("button");
       stationTableData.innerText = station;
-      stationDeleteButton.setAttribute("class", "station-delete-button");
+      stationDeleteButton.className = "station-delete-button";
       stationDeleteButton.dataset.station = station;
       stationDeleteButton.innerText = DELETE;
       stationDeleteButton.onclick = () => this.removeStation(station);
@@ -94,7 +94,7 @@ export default class View {
       nameEl.innerText = key;
       startEl.innerText = lines[key][0];
       endEl.innerText = lines[key].slice(-1)[0];
-      lineDeleteButton.setAttribute("class", "line-delete-button");
+      lineDeleteButton.className = "line-delete-button";
       lineDeleteButton.innerText = DELETE;
       lineDeleteButton.dataset.line = key;
       lineDeleteButton.onclick = () => this.deleteLine(key);
@@ -114,14 +114,14 @@ export default class View {
     );
     for (const key in lines) {
       const lineSelectorButton = document.createElement("button");
-      lineSelectorButton.setAttribute("class", "section-line-menu-button");
+      lineSelectorButton.className = "section-line-menu-button";
       lineSelectorButton.style.marginRight = "8px";
+      lineSelectorButton.dataset.line = key;
+      lineSelectorButton.innerText = key;
       lineSelectorButton.onclick = () => {
         this.renderModifySectionContainer(key);
         this.renderSectionTable(key, lines[key]);
       };
-      lineSelectorButton.dataset.line = key;
-      lineSelectorButton.innerText = key;
       sectionSelectorContainer.appendChild(lineSelectorButton);
     }
   }
@@ -149,7 +149,7 @@ export default class View {
       return;
     }
     const newEl = document.createElement("div");
-    newEl.setAttribute("class", "map");
+    newEl.className = "map";
     newEl.innerHTML = Object.entries(lines).reduce(this.combineMap, "");
     contentEl.appendChild(newEl);
   }
@@ -184,12 +184,12 @@ export default class View {
       const nameEl = document.createElement("td");
       const setEl = document.createElement("td");
       const deleteButton = document.createElement("button");
-      deleteButton.setAttribute("class", "section-delete-button");
+      deleteButton.className = "section-delete-button";
       deleteButton.dataset.section = `${lineName}-${station}`;
+      deleteButton.innerText = DELETE_AT_LINE;
       deleteButton.onclick = () => this.removeSectionEvent(lineName, station);
       orderEl.innerText = i;
       nameEl.innerText = station;
-      deleteButton.innerText = DELETE_AT_LINE;
       tableRow.dataset.section = `${lineName}-${i}`;
       setEl.append(deleteButton);
       tableRow.append(orderEl, nameEl, setEl);
